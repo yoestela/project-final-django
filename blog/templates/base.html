@@ -1,0 +1,102 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{# Load CSS and JavaScript #}
+	{% bootstrap_css %}
+	{% bootstrap_javascript %}
+	{# Display django.contrib.messages as Bootstrap alerts #}
+	{% bootstrap_messages %}
+    <title>Proyecto-Final</title>
+	<link rel="stylesheet" href="{% static 'css/blog-home.css' %}">
+</head>
+<body>
+	<!-- Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+			  <a class="navbar-brand" href="#"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo" width="50px" heigth="50px"></a>
+			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				  <li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{% url 'posts:blog' %}">Home</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link" href="{% url 'about' %}">Nosotros</a>
+				  </li>
+				  {% if user.is_authenticated %}
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Hola, {{request.user.username}}
+					</a>
+						<div class="dropdown-menu">
+						   <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+						</div>
+					 </li>
+					 {% else %}
+					  <li><a class="nav-link"  href="{% url 'users:login' %}">Login</a></li>
+					  <li><a class="nav-link" href="{% url 'users:registro' %}">Registro</a></li>
+					
+					{% endif %}
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link disabled">Disabled</a>
+				  </li>
+				</ul>
+				<form class="d-flex">
+				  <input class="form-control me-2" type="search" placeholder="buscar noticia" aria-label="Search">
+				  <button class="btn btn-outline-success" type="submit">Buscar</button>
+				</form>
+			  </div>
+			</div>
+		  </nav>
+		
+				
+	 <!-- Page Content -->
+	 <div class="container">
+		
+		{% block content %}{% endblock %} 
+	   <!-- Sidebar Widgets Column -->
+	   <div class="col-md-4">
+		  <!-- Categories Widget -->
+		  <div class="card my-4">
+			 <h5 class="card-header">Categorias</h5>
+			 <div class="card-body">
+				<div class="row">
+				   <div class="col-lg-12">
+					  <ul class="list-unstyled mb-0">
+						{% for categ in categorias %}
+						<li>
+							<a href="#">{{categ.nombre}}</a>
+						</li>
+						{% endfor %}
+					  </ul>
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		  <!-- Side Widget -->
+		  <div class="card my-4">
+			 <h5 class="card-header">Side Widget</h5>
+			 <div class="card-body">
+				You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+			 </div>
+		  </div>
+	   </div>
+	</div>
+	<!-- Footer -->
+	<footer class="py-5 bg-dark">
+	   <div class="container">
+			
+		  <p class="m-0 text-center text-white">Copyright &copy; 2023 Blog: Los discipulos de Adrian y Pablo {% now "Y" %}</p>
+	   </div>
+	   <!-- /.container -->
+	</footer>
+ </body>
+</html>
